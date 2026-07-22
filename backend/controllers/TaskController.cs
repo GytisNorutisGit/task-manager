@@ -40,4 +40,16 @@ public class TasksController : ControllerBase
         _context.SaveChanges();
         return NoContent();
     }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateTask(int id, [FromBody] Task updatedTask)
+    {
+        var task = _context.Tasks.Find(id);
+        if (task == null) return NotFound();
+
+        task.Title = updatedTask.Title;
+        task.Status = updatedTask.Status;
+        _context.SaveChanges();
+        return NoContent();
+    }
 }

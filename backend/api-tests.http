@@ -9,10 +9,18 @@ Content-Type: application/json
 
 {
   "title": "food shop",
-  "status": "in-progress"
+  "status": "todo"
 }
 
-###
+### Update Task
+
+PUT http://localhost:5204/api/tasks/2
+Content-Type: application/json
+
+{
+  "title": "This is an updated task",
+  "status": "in-progress"
+}
 
 ### Delete a task (change the id as needed)
 DELETE http://localhost:5204/api/tasks/1

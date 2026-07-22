@@ -37,6 +37,8 @@ export class TaskListComponent {
 
   deleteTask(taskId: number) { this.taskService.deleteTask(taskId); }
 
+  updateTask(taskId: number) { this.taskService.updateTask(taskId); }
+
   ngOnInit() {
     // runs once when the component loads
     this.taskService.loadTasks();
