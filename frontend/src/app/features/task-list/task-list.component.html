@@ -1,0 +1,13 @@
+@for (task of tasks; track task.id) {
+<p [ngClass]="task.status">{{task.title}}, {{task.status}}</p>
+<button (click)="deleteTask(task.id)">Delete Task</button>
+}
+<br><br>
+<input [(ngModel)]="newTaskTitle"/>
+<select [(ngModel)]="taskStatus">
+    <option value="todo">todo</option>
+    <option value="in-progress">in-progress</option>
+    <option value="completed">completed</option>
+    <option value="blocked">blocked</option>
+</select>
+<button (click)="addTask()">Add Task</button>
