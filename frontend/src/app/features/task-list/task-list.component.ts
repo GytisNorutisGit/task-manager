@@ -33,9 +33,14 @@ export class TaskListComponent {
     return this.taskService.tasks;
   }
 
-  addTask() {this.taskService.addTask();}
+  addTask() { this.taskService.addTask(); }
 
-  deleteTask(taskId: number) {this.taskService.deleteTask(taskId);}
+  deleteTask(taskId: number) { this.taskService.deleteTask(taskId); }
 
-  constructor(private taskService: TaskService) {}
+  ngOnInit() {
+    // runs once when the component loads
+    this.taskService.loadTasks();
+  }
+
+  constructor(private taskService: TaskService) { }
 }

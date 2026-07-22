@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export type TaskStatus = 'todo' | 'in-progress' | 'completed' | 'blocked';
@@ -27,11 +28,13 @@ export class TaskService {
     this.tasks = this.tasks.filter(task => task.id !== taskId);
   }
 
-  tasks: Task[] = [
-    { id: 1, title: 'Task 1', status: 'todo' },
-    { id: 2, title: 'Task 2', status: 'todo' },
-    { id: 3, title: 'Task 3', status: 'todo' },
-  ]
+  loadTasks() {
+    this.http.get<Task[]>('http://localhost:5204/api/tasks').subscribe(data => {
+      this.tasks = data;
+    });
+  }
 
-  constructor() { }
+  tasks: Task[] = [];
+
+  constructor(private http: HttpClient) { }
 }
