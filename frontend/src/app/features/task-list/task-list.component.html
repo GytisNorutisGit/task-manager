@@ -27,8 +27,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput [(ngModel)]="taskNotes" name="taskNotes" placeholder="Notes"
-            maxlength="100" />
+        <input matInput [(ngModel)]="taskNotes" name="taskNotes" placeholder="Notes" maxlength="100" />
         <mat-hint align="end">{{taskNotes.length}}/100</mat-hint>
         @if (taskNotes.length === 100) {
         <mat-hint>Max length limit reached</mat-hint>
@@ -46,7 +45,12 @@
 
             @if(isEditing(task.id)) {
             <mat-form-field class="notes-field">
-                <textarea matInput [(ngModel)]="task.notes" placeholder="Edit Notes"></textarea>
+                <textarea matInput [(ngModel)]="task.notes" name="taskNotes" placeholder="Edit Notes"
+                    maxlength="100"></textarea>
+                <mat-hint align="end">{{task.notes.length}}/100</mat-hint>
+                @if (task.notes.length === 100) {
+                <mat-hint>Max length limit reached</mat-hint>
+                }
             </mat-form-field>
             <div class="notes-actions">
                 <button mat-button color="primary" (click)="saveTask(task.id)">Save</button>
