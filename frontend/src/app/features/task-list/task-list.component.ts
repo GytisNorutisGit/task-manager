@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { NgModel } from '@angular/forms';
+
 
 
 @Component({
@@ -56,7 +58,10 @@ export class TaskListComponent {
     return this.taskService.tasks;
   }
 
-  addTask() { this.taskService.addTask(); }
+  addTask(titleModel: NgModel) { 
+    this.taskService.addTask(); 
+    titleModel.reset('');
+  }
 
   deleteTask(taskId: number) { this.taskService.deleteTask(taskId); }
 

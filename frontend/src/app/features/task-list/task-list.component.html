@@ -1,6 +1,11 @@
 <div class="add-task-form">
     <mat-form-field>
-        <input matInput [(ngModel)]="newTaskTitle" placeholder="Task title" />
+        <input matInput [(ngModel)]="newTaskTitle" name="newTaskTitle" #titleModel="ngModel" placeholder="Task title"
+            required />
+
+        @if (titleModel.touched && titleModel.errors?.['required']) {
+        <mat-error> Title is required </mat-error>
+        }
     </mat-form-field>
 
     <mat-form-field>
@@ -22,9 +27,15 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput [(ngModel)]="taskNotes" placeholder="Notes" />
+        <input matInput [(ngModel)]="taskNotes" name="taskNotes" placeholder="Notes"
+            maxlength="100" />
+        <mat-hint align="end">{{taskNotes.length}}/100</mat-hint>
+        @if (taskNotes.length === 100) {
+        <mat-hint>Max length limit reached</mat-hint>
+        }
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="addTask()">Add Task</button>
+    <button mat-raised-button color="primary" (click)="addTask(titleModel)"
+        [disabled]="titleModel.invalid || !newTaskTitle.trim()">Add Task</button>
 </div>
 @for (task of tasks; track task.id) {
 <mat-card>
@@ -63,14 +74,14 @@
         </div>
 
         <div class="priority-dropdown">
-                <mat-form-field>
-                    <mat-select [(ngModel)]="task.priority" (ngModelChange)="updateTask(task.id)">
-                        <mat-option [value]="1">1</mat-option>
-                        <mat-option [value]="2">2</mat-option>
-                        <mat-option [value]="3">3</mat-option>
-                        <mat-option [value]="4">4</mat-option>
-                    </mat-select>
-                </mat-form-field>
+            <mat-form-field>
+                <mat-select [(ngModel)]="task.priority" (ngModelChange)="updateTask(task.id)">
+                    <mat-option [value]="1">1</mat-option>
+                    <mat-option [value]="2">2</mat-option>
+                    <mat-option [value]="3">3</mat-option>
+                    <mat-option [value]="4">4</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
     </mat-card-content>
 </mat-card>

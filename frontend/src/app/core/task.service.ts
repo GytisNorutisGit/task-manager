@@ -28,6 +28,7 @@ export class TaskService {
       this.http.post<Task>('http://localhost:5204/api/tasks', newTask).subscribe(task => {
         this.tasks.push(task);
         this.newTaskTitle = '';
+        this.taskNotes = '';
       });
     }
   }
