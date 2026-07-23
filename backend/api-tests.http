@@ -8,10 +8,10 @@ POST http://localhost:5204/api/tasks
 Content-Type: application/json
 
 {
-  "title": "go to the gym",
-  "status": "todo",
-  "notes": "Buy fruits and vegetables",
-  "priority": 4
+  "title": "",
+  "status": "lol",
+  "notes": "Buy fruits and vegetables asdfsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "priority": 5
 }
 
 ### Update Task

@@ -25,6 +25,11 @@ public class TasksController : ControllerBase
     [HttpPost]
     public IActionResult CreateTask([FromBody] Task task)
     {
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
         _context.Tasks.Add(task);
         _context.SaveChanges();
         return CreatedAtAction(nameof(GetTasks), task);
@@ -44,6 +49,11 @@ public class TasksController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult UpdateTask(int id, [FromBody] Task updatedTask)
     {
+        if (!ModelState.IsValid)
+        {
+            return ValidationProblem(ModelState);
+        }
+
         var task = _context.Tasks.Find(id);
         if (task == null) return NotFound();
 
