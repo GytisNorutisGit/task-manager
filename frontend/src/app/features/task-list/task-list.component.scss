@@ -1,3 +1,33 @@
 .completed { color: green; text-decoration: line-through; opacity: 0.5; }
 .blocked { color: red; }
 .in-progress { color: orange; }
+
+:host {
+  display: block;
+  max-width: 800px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+mat-card {
+  margin-bottom: 16px;
+}
+
+.add-task-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.task-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+}
+
+mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}

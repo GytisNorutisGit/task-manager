@@ -1,19 +1,31 @@
+<div class="add-task-form">
+    <mat-form-field>
+        <input matInput [(ngModel)]="newTaskTitle" placeholder="Task title" />
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select [(ngModel)]="taskStatus">
+            <mat-option value="todo">Todo</mat-option>
+            <mat-option value="in-progress">In Progress</mat-option>
+            <mat-option value="completed">Completed</mat-option>
+            <mat-option value="blocked">Blocked</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addTask()">Add Task</button>
+</div>
 @for (task of tasks; track task.id) {
-<p [ngClass]="task.status">{{task.title}}</p>
-  <select [(ngModel)]="task.status" (change)="updateTask(task.id)">
-    <option value="todo">todo</option>
-    <option value="in-progress">in-progress</option>
-    <option value="completed">completed</option>
-    <option value="blocked">blocked</option>
-  </select>
-<button (click)="deleteTask(task.id)">Delete Task</button>
+<mat-card>
+    <mat-card-content>
+        <p class="task-title" [ngClass]="task.status">{{task.title}}</p>
+        <mat-form-field>
+            <mat-select [(ngModel)]="task.status" (ngModelChange)="updateTask(task.id)">
+                <mat-option value="todo">todo</mat-option>
+                <mat-option value="in-progress">in-progress</mat-option>
+                <mat-option value="completed">completed</mat-option>
+                <mat-option value="blocked">blocked</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="warn" (click)="deleteTask(task.id)">Delete Task</button>
+    </mat-card-content>
+</mat-card>
 }
-<br><br>
-<input [(ngModel)]="newTaskTitle"/>
-<select [(ngModel)]="taskStatus">
-    <option value="todo">todo</option>
-    <option value="in-progress">in-progress</option>
-    <option value="completed">completed</option>
-    <option value="blocked">blocked</option>
-</select>
-<button (click)="addTask()">Add Task</button>

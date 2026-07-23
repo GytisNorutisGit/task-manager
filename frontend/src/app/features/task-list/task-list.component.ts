@@ -3,12 +3,16 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../core/task.service';
 import { TaskStatus } from '../../core/task.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [FormsModule, NgClass],
+  imports: [FormsModule, NgClass, MatButtonModule, MatInputModule, MatSelectModule, MatCardModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
