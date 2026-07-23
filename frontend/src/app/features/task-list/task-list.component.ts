@@ -18,6 +18,8 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class TaskListComponent {
 
+  editingTaskIds = new Set<number>();
+
   get newTaskTitle() {
     return this.taskService.newTaskTitle;
   }
@@ -33,6 +35,14 @@ export class TaskListComponent {
   set taskStatus(value: TaskStatus) {
     this.taskService.taskStatus = value;
   }
+
+  get taskNotes() {
+    return this.taskService.taskNotes;
+  }
+
+  set taskNotes(value: string) {
+    this.taskService.taskNotes = value;
+  }
   get tasks() {
     return this.taskService.tasks;
   }
@@ -42,6 +52,25 @@ export class TaskListComponent {
   deleteTask(taskId: number) { this.taskService.deleteTask(taskId); }
 
   updateTask(taskId: number) { this.taskService.updateTask(taskId); }
+
+  toggleEdit(taskId: number) {
+    if (this.editingTaskIds.has(taskId))
+    {
+      this.editingTaskIds.delete(taskId);
+    } else {
+      this.editingTaskIds.add(taskId);
+    }
+  };
+
+  isEditing(taskId: number) {
+    return this.editingTaskIds.has(taskId);
+  }
+
+  saveTask(taskId: number) {
+    this.taskService.updateTask(taskId);
+    this.editingTaskIds.delete(taskId);
+  }
+  
 
   ngOnInit() {
     // runs once when the component loads

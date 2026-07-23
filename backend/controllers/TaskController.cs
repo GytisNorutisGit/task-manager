@@ -49,6 +49,7 @@ public class TasksController : ControllerBase
 
         task.Title = updatedTask.Title;
         task.Status = updatedTask.Status;
+        task.Notes = updatedTask.Notes;
         _context.SaveChanges();
         return NoContent();
     }

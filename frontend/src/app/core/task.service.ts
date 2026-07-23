@@ -7,6 +7,7 @@ interface Task {
   id: number;
   title: string;
   status: TaskStatus;
+  notes: string;
 }
 
 @Injectable({
@@ -16,10 +17,11 @@ export class TaskService {
 
   newTaskTitle: string = '';
   taskStatus: TaskStatus = 'todo';
+  taskNotes: string = '';
 
   addTask() {
     if (this.newTaskTitle.trim()) {
-      const newTask = { title: this.newTaskTitle, status: this.taskStatus };
+      const newTask = { title: this.newTaskTitle, status: this.taskStatus, notes: this.taskNotes };
       this.http.post<Task>('http://localhost:5204/api/tasks', newTask).subscribe(task => {
         this.tasks.push(task);
         this.newTaskTitle = '';

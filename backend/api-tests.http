@@ -8,18 +8,20 @@ POST http://localhost:5204/api/tasks
 Content-Type: application/json
 
 {
-  "title": "food shop",
-  "status": "todo"
+  "title": "go to the gym",
+  "status": "todo",
+  "notes": "Buy fruits and vegetables"
 }
 
 ### Update Task
 
-PUT http://localhost:5204/api/tasks/2
+PUT http://localhost:5204/api/tasks/8
 Content-Type: application/json
 
 {
-  "title": "This is an updated task",
-  "status": "in-progress"
+  "title": "go to the gym",
+  "status": "in-progress",
+  "notes": "Leg Day"
 }
 
 ### Delete a task (change the id as needed)

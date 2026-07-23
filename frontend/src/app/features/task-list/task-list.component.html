@@ -11,6 +11,10 @@
             <mat-option value="blocked">Blocked</mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [(ngModel)]="taskNotes" placeholder="Notes" />
+    </mat-form-field>
     <button mat-raised-button color="primary" (click)="addTask()">Add Task</button>
 </div>
 @for (task of tasks; track task.id) {
@@ -25,6 +29,21 @@
                 <mat-option value="blocked">blocked</mat-option>
             </mat-select>
         </mat-form-field>
+
+        @if(isEditing(task.id)) {
+        <mat-form-field>
+            <textarea matInput [(ngModel)]="task.notes" placeholder="Edit Notes"></textarea>
+        </mat-form-field>
+        <button mat-button color="primary" (click)="saveTask(task.id)">Save</button>
+        <button mat-button (click)="toggleEdit(task.id)">Cancel</button>
+        } @else {
+        <p>{{ task.notes || 'No notes yet' }}</p>
+        <button mat-button (click)="toggleEdit(task.id)">Edit Notes</button>
+
+        }
+
+
+        <!-- <textarea matInput [(ngModel)]="task.notes" (blur)="updateTask(task.id)" placeholder="Edit Notes"></textarea> -->
         <button mat-raised-button color="warn" (click)="deleteTask(task.id)">Delete Task</button>
     </mat-card-content>
 </mat-card>
