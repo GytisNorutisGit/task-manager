@@ -13,6 +13,15 @@
     </mat-form-field>
 
     <mat-form-field>
+        <mat-select [(ngModel)]="taskPriority">
+            <mat-option [value]="1">1</mat-option>
+            <mat-option [value]="2">2</mat-option>
+            <mat-option [value]="3">3</mat-option>
+            <mat-option [value]="4">4</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
         <input matInput [(ngModel)]="taskNotes" placeholder="Notes" />
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="addTask()">Add Task</button>
@@ -20,31 +29,49 @@
 @for (task of tasks; track task.id) {
 <mat-card>
     <mat-card-content>
-        <p class="task-title" [ngClass]="task.status">{{task.title}}</p>
-        <mat-form-field>
-            <mat-select [(ngModel)]="task.status" (ngModelChange)="updateTask(task.id)">
-                <mat-option value="todo">todo</mat-option>
-                <mat-option value="in-progress">in-progress</mat-option>
-                <mat-option value="completed">completed</mat-option>
-                <mat-option value="blocked">blocked</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="task-main">
+            <p class="task-title" [ngClass]="task.status">Task: {{task.title}}</p>
+            <p class="task-priority">Priority: {{ task.priority }}</p>
 
-        @if(isEditing(task.id)) {
-        <mat-form-field>
-            <textarea matInput [(ngModel)]="task.notes" placeholder="Edit Notes"></textarea>
-        </mat-form-field>
-        <button mat-button color="primary" (click)="saveTask(task.id)">Save</button>
-        <button mat-button (click)="toggleEdit(task.id)">Cancel</button>
-        } @else {
-        <p>{{ task.notes || 'No notes yet' }}</p>
-        <button mat-button (click)="toggleEdit(task.id)">Edit Notes</button>
+            @if(isEditing(task.id)) {
+            <mat-form-field class="notes-field">
+                <textarea matInput [(ngModel)]="task.notes" placeholder="Edit Notes"></textarea>
+            </mat-form-field>
+            <div class="notes-actions">
+                <button mat-button color="primary" (click)="saveTask(task.id)">Save</button>
+                <button mat-button (click)="toggleEdit(task.id)">Cancel</button>
+            </div>
+            } @else {
+            <p class="task-notes">Notes: {{ task.notes || 'No notes yet' }}</p>
+            <div class="task-row-actions">
+                <button mat-raised-button color="primary" (click)="toggleEdit(task.id)">Edit Notes</button>
+                <button class="delete-button" mat-raised-button color="warn" (click)="deleteTask(task.id)">Delete
+                    Task</button>
+            </div>
+            }
+        </div>
 
-        }
+        <div class="task-status">
+            <mat-form-field>
+                <mat-select [(ngModel)]="task.status" (ngModelChange)="updateTask(task.id)">
+                    <mat-option value="todo">todo</mat-option>
+                    <mat-option value="in-progress">in-progress</mat-option>
+                    <mat-option value="completed">completed</mat-option>
+                    <mat-option value="blocked">blocked</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
-
-        <!-- <textarea matInput [(ngModel)]="task.notes" (blur)="updateTask(task.id)" placeholder="Edit Notes"></textarea> -->
-        <button mat-raised-button color="warn" (click)="deleteTask(task.id)">Delete Task</button>
+        <div class="priority-dropdown">
+                <mat-form-field>
+                    <mat-select [(ngModel)]="task.priority" (ngModelChange)="updateTask(task.id)">
+                        <mat-option [value]="1">1</mat-option>
+                        <mat-option [value]="2">2</mat-option>
+                        <mat-option [value]="3">3</mat-option>
+                        <mat-option [value]="4">4</mat-option>
+                    </mat-select>
+                </mat-form-field>
+        </div>
     </mat-card-content>
 </mat-card>
 }

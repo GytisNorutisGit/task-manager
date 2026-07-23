@@ -10,7 +10,8 @@ Content-Type: application/json
 {
   "title": "go to the gym",
   "status": "todo",
-  "notes": "Buy fruits and vegetables"
+  "notes": "Buy fruits and vegetables",
+  "priority": 4
 }
 
 ### Update Task
@@ -21,7 +22,8 @@ Content-Type: application/json
 {
   "title": "go to the gym",
   "status": "in-progress",
-  "notes": "Leg Day"
+  "notes": "Leg Day",
+  "priority": 3
 }
 
 ### Delete a task (change the id as needed)

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../core/task.service';
 import { TaskStatus } from '../../core/task.service';
+import { TaskPriority } from '../../core/task.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -36,6 +37,14 @@ export class TaskListComponent {
     this.taskService.taskStatus = value;
   }
 
+  get taskPriority() {
+    return this.taskService.taskPriority;
+  }
+
+  set taskPriority(value: TaskPriority) {
+    this.taskService.taskPriority = value;
+  }
+
   get taskNotes() {
     return this.taskService.taskNotes;
   }
@@ -54,8 +63,7 @@ export class TaskListComponent {
   updateTask(taskId: number) { this.taskService.updateTask(taskId); }
 
   toggleEdit(taskId: number) {
-    if (this.editingTaskIds.has(taskId))
-    {
+    if (this.editingTaskIds.has(taskId)) {
       this.editingTaskIds.delete(taskId);
     } else {
       this.editingTaskIds.add(taskId);
@@ -70,7 +78,7 @@ export class TaskListComponent {
     this.taskService.updateTask(taskId);
     this.editingTaskIds.delete(taskId);
   }
-  
+
 
   ngOnInit() {
     // runs once when the component loads

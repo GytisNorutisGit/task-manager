@@ -50,6 +50,7 @@ public class TasksController : ControllerBase
         task.Title = updatedTask.Title;
         task.Status = updatedTask.Status;
         task.Notes = updatedTask.Notes;
+        task.Priority = updatedTask.Priority;
         _context.SaveChanges();
         return NoContent();
     }

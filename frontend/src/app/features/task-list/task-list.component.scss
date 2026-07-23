@@ -20,14 +20,71 @@ mat-card {
   margin-bottom: 24px;
 }
 
+.add-task-form mat-form-field {
+  min-width: 180px;
+}
+
 .task-title {
   font-size: 1.1rem;
   font-weight: 500;
   margin: 0 0 8px 0;
 }
 
-mat-card-content {
+.task-notes {
+  margin: 0 0 8px 0;
+  opacity: 0.85;
+}
+
+.task-priority {
+  margin: 0 0 8px 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.notes-field {
+  width: 100%;
+}
+
+.notes-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.task-row-actions {
   display: flex;
   align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+mat-card-content {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 220px 120px;
   gap: 16px;
+  align-items: start;
+}
+
+.task-main {
+  min-width: 0;
+}
+
+.task-status {
+  display: flex;
+  justify-content: center;
+}
+
+.task-status mat-form-field {
+  width: 100%;
+}
+
+.delete-button {
+  margin-top: 0;
+}
+.priority-dropdown {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.priority-dropdown mat-form-field {
+  width: 90px;
 }

@@ -10,4 +10,6 @@ public class Task
 
     public string Notes { get; set; } = string.Empty;
 
+    public int Priority { get; set; } = 2;
+
 }
