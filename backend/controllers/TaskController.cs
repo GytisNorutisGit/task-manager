@@ -61,6 +61,7 @@ public class TasksController : ControllerBase
         task.Status = updatedTask.Status;
         task.Notes = updatedTask.Notes;
         task.Priority = updatedTask.Priority;
+        task.Duration = updatedTask.Duration;
         _context.SaveChanges();
         return NoContent();
     }

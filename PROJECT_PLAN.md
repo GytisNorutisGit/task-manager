@@ -128,7 +128,7 @@ Track your progress here as you complete each milestone:
 - [ ] **M4:** Understand controllers, routing, and HTTP verbs
 - [ ] **M5:** Angular calls API and displays real data
 - [ ] **M6:** Create, complete, and delete tasks end-to-end
-- [ ] **M7:** Implement ADHD-specific features (focus mode, brain dump)
+- [ ] **M7:** Implement ADHD-specific features (time allocation for task & timer)
 - [ ] **M8:** Add user authentication
 - [ ] **M9:** App deployed and accessible online
 
