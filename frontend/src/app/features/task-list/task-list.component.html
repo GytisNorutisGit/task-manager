@@ -39,13 +39,13 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Duration (minutes)</mat-label>
-        <input matInput [(ngModel)]="taskDuration" type="number" #newDurationModel="ngModel" name="taskDuration"
-            min="1" max="240" />
-        @if (newDurationModel.touched && newDurationModel.errors?.['min'] && taskDuration < 1) {
-        <mat-error>Duration cannot be less than 1 minute</mat-error>
-        } @else if (newDurationModel.touched && newDurationModel.errors?.['max'] && taskDuration > 240) {
-        <mat-error>Duration must be less than 240 minutes</mat-error>
-        }
+        <input matInput [(ngModel)]="taskDuration" type="number" #newDurationModel="ngModel" name="taskDuration" min="1"
+            max="240" />
+        @if (newDurationModel.touched && newDurationModel.errors?.['min'] && taskDuration < 1) { <mat-error>Duration
+            cannot be less than 1 minute</mat-error>
+            } @else if (newDurationModel.touched && newDurationModel.errors?.['max'] && taskDuration > 240) {
+            <mat-error>Duration must be less than 240 minutes</mat-error>
+            }
     </mat-form-field>
 
     <button mat-raised-button color="primary" (click)="addTask(titleModel)"
@@ -66,7 +66,8 @@
         <div class="task-field">
             <mat-form-field appearance="outline">
                 <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="task.status" [name]="'taskStatus-' + task.id" (ngModelChange)="updateTask(task.id)">
+                <mat-select [(ngModel)]="task.status" [name]="'taskStatus-' + task.id"
+                    (ngModelChange)="updateTask(task.id)">
                     <mat-option value="todo">Todo</mat-option>
                     <mat-option value="in-progress">In Progress</mat-option>
                     <mat-option value="completed">Completed</mat-option>
@@ -78,7 +79,8 @@
         <div class="task-field">
             <mat-form-field appearance="outline">
                 <mat-label>Priority</mat-label>
-                <mat-select [(ngModel)]="task.priority" [name]="'taskPriority-' + task.id" (ngModelChange)="updateTask(task.id)">
+                <mat-select [(ngModel)]="task.priority" [name]="'taskPriority-' + task.id"
+                    (ngModelChange)="updateTask(task.id)">
                     <mat-option [value]="1">1</mat-option>
                     <mat-option [value]="2">2</mat-option>
                     <mat-option [value]="3">3</mat-option>
@@ -92,11 +94,11 @@
                 <mat-label>Duration (minutes)</mat-label>
                 <input matInput [(ngModel)]="task.duration" (ngModelChange)="updateTask(task.id)" type="number"
                     #taskDurationModel="ngModel" [name]="'taskDuration-' + task.id" min="1" max="240" />
-                @if (taskDurationModel.touched && taskDurationModel.errors?.['min'] && task.duration < 1) {
-                <mat-error>Duration cannot be less than 1 minute</mat-error>
-                } @else if (taskDurationModel.touched && taskDurationModel.errors?.['max'] && task.duration > 240) {
-                <mat-error>Duration must be less than 240 minutes</mat-error>
-                }
+                @if (taskDurationModel.touched && taskDurationModel.errors?.['min'] && task.duration < 1) { <mat-error>
+                    Duration cannot be less than 1 minute</mat-error>
+                    } @else if (taskDurationModel.touched && taskDurationModel.errors?.['max'] && task.duration > 240) {
+                    <mat-error>Duration must be less than 240 minutes</mat-error>
+                    }
             </mat-form-field>
         </div>
 
@@ -119,18 +121,22 @@
             <p class="task-notes">{{ task.notes || 'No notes yet' }}</p>
             <div class="task-row-actions">
                 <button mat-raised-button color="primary" (click)="toggleEdit(task.id)">Edit Notes</button>
-                <button class="delete-button" mat-raised-button color="warn" (click)="deleteTask(task.id)">Delete Task</button>
+                <button class="delete-button" mat-raised-button color="warn" (click)="deleteTask(task.id)">Delete
+                    Task</button>
             </div>
             }
         </div>
 
         <div class="task-field task-timer">
             <p class="field-label">Timer</p>
+            <div class="timer-visual" [style.--progress]="timerProgress(task.id)">
+                <div class="timer-inner">{{ formattedTime(task.id) }}</div>
+            </div>
             <p class="timer-display">Time Remaining: {{ formattedTime(task.id) }}</p>
             <div class="timer-actions">
-                <button mat-raised-button color="accent" (click)="startTimer(task.id)">Start</button>
-                <button mat-raised-button color="accent" (click)="pauseTimer()">Pause</button>
-                <button mat-raised-button color="accent" (click)="resetTimer(task.id)">Reset</button>
+                <button mat-raised-button (click)="startTimer(task.id)">Start</button>
+                <button mat-raised-button (click)="pauseTimer()">Pause</button>
+                <button mat-raised-button (click)="resetTimer(task.id)">Reset</button>
             </div>
         </div>
     </mat-card-content>

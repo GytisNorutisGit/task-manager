@@ -116,3 +116,36 @@ mat-card {
     grid-template-columns: 1fr;
   }
 }
+
+.timer-visual {
+  --progress: 100;
+  --timer-track: color-mix(in srgb, currentColor 20%, transparent);
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  position: relative;
+  display: grid;
+  place-items: center;
+  color: gray;
+  background: conic-gradient(
+    currentColor calc(var(--progress) * 1%),
+    var(--timer-track) 0
+  );
+  border: 1px solid var(--timer-track);
+  transition: background 180ms linear;
+}
+
+.timer-visual::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--mat-sys-surface, Canvas);
+}
+
+.timer-inner {
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+  font-size: 0.9rem;
+}

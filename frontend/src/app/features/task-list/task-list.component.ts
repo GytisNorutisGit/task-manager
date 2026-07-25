@@ -126,6 +126,19 @@ export class TaskListComponent {
 
   }
 
+  timerProgress(taskId: number): number {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return 0;
+
+    const totalSeconds = task.duration * 60;
+    if (totalSeconds <= 0) return 0;
+
+    if (this.activeTaskId !== taskId) return 100;
+
+    const percent = (this.taskRemainingSeconds / totalSeconds) * 100;
+    return Math.max(0, Math.min(100, percent));
+  }
+
 
   ngOnInit() {
     // runs once when the component loads
