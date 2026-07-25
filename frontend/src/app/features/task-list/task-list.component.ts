@@ -54,12 +54,30 @@ export class TaskListComponent {
   set taskNotes(value: string) {
     this.taskService.taskNotes = value;
   }
+
+  get taskDuration() {
+    return this.taskService.taskDuration;
+  }
+
+  set taskDuration(value: number) {
+    this.taskService.taskDuration = value;
+  }
+
   get tasks() {
     return this.taskService.tasks;
   }
 
-  addTask(titleModel: NgModel) { 
-    this.taskService.addTask(); 
+  get taskRemainingSeconds() {
+    return this.taskService.remainingSeconds;
+  }
+
+  get activeTaskId() {
+    return this.taskService.activeTaskId;
+  }
+
+
+  addTask(titleModel: NgModel) {
+    this.taskService.addTask();
     titleModel.reset('');
   }
 
@@ -82,6 +100,30 @@ export class TaskListComponent {
   saveTask(taskId: number) {
     this.taskService.updateTask(taskId);
     this.editingTaskIds.delete(taskId);
+  }
+
+  startTimer(taskId: number) {
+    this.taskService.startFocusTimer(taskId);
+  }
+
+  pauseTimer() {
+    this.taskService.pauseFocusTimer();
+  }
+
+  resetTimer(taskId: number) {
+    this.taskService.resetFocusTimer(taskId);
+  }
+
+  formattedTime(taskId: number) {
+    if (taskId === this.activeTaskId) {
+      return this.taskService.formattedRemainingTime;
+    }
+
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return '0:00';
+
+    return `${task.duration}:00`;
+
   }
 
 

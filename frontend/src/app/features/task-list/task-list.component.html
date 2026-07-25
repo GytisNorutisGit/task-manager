@@ -1,3 +1,4 @@
+<!-- Add Task -->
 <div class="add-task-form">
     <mat-form-field>
         <input matInput [(ngModel)]="newTaskTitle" name="newTaskTitle" #titleModel="ngModel" placeholder="Task title"
@@ -33,9 +34,23 @@
         <mat-hint>Max length limit reached</mat-hint>
         }
     </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [(ngModel)]="taskDuration" type="number" #durationModel="ngModel" name="taskDuration"
+            placeholder="Duration" min="1" max="240" />
+        @if (durationModel.touched && durationModel.errors?.['min'] && taskDuration < 1) { <mat-error>Duration cannot be
+            less than 1 minute</mat-error>
+            } @else if (durationModel.touched && durationModel.errors?.['max'] && taskDuration > 240) {
+            <mat-error>Duration must be less than 240 minutes</mat-error>
+            }
+    </mat-form-field>
+
+
     <button mat-raised-button color="primary" (click)="addTask(titleModel)"
-        [disabled]="titleModel.invalid || !newTaskTitle.trim()">Add Task</button>
+        [disabled]="titleModel.invalid || !newTaskTitle.trim() || durationModel.invalid">Add Task</button>
 </div>
+
+<!-- View Tasks -->
 @for (task of tasks; track task.id) {
 <mat-card>
     <mat-card-content>
@@ -86,6 +101,33 @@
                     <mat-option [value]="4">4</mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>
+
+        <div class="task-duration">
+            <mat-form-field>
+                <input matInput [(ngModel)]="task.duration" (ngModelChange)="updateTask(task.id)" type="number"
+                    #durationModel="ngModel" name="taskDuration" placeholder="Duration" min="1" max="240" />
+                @if (durationModel.touched && durationModel.errors?.['min'] && task.duration < 1) { <mat-error>Duration
+                    cannot be
+                    less than 1 minute</mat-error>
+                    } @else if (durationModel.touched && durationModel.errors?.['max'] && task.duration > 240) {
+                    <mat-error>Duration must be less than 240 minutes</mat-error>
+                    }
+            </mat-form-field>
+        </div>
+
+        <div class="task-timer">
+            <button mat-raised-button color="accent" (click)="startTimer(task.id)">
+                Start Timer
+            </button>
+            <button mat-raised-button color="accent" (click)="pauseTimer()">
+                Pause Timer
+            </button>
+            <button mat-raised-button color="accent" (click)="resetTimer(task.id)">
+                Reset Timer
+            </button>
+
+            <p>Time Remaining: {{ formattedTime(task.id) }}</p>
         </div>
     </mat-card-content>
 </mat-card>

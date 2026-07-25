@@ -11,6 +11,7 @@ interface Task {
   status: TaskStatus;
   priority: TaskPriority;
   notes: string;
+  duration: number;
 }
 
 @Injectable({
@@ -24,10 +25,15 @@ export class TaskService {
   taskStatus: TaskStatus = 'todo';
   taskPriority: TaskPriority = 2;
   taskNotes: string = '';
+  taskDuration: number = 1;
+  activeTaskId: number | null = null;
+  remainingSeconds: number = 0;
+  isRunning: boolean = false; 
+  private timerId: ReturnType<typeof setInterval> | null = null;
 
   addTask() {
     if (this.newTaskTitle.trim()) {
-      const newTask = { title: this.newTaskTitle, status: this.taskStatus, priority: this.taskPriority, notes: this.taskNotes };
+      const newTask = { title: this.newTaskTitle, status: this.taskStatus, priority: this.taskPriority, notes: this.taskNotes, duration: this.taskDuration };
       this.http.post<Task>(this.apiUrl, newTask).subscribe(task => {
         this.tasks.push(task);
         this.newTaskTitle = '';
@@ -51,6 +57,55 @@ export class TaskService {
       });
     }
   }
+
+  startFocusTimer(taskId: number): void {
+  if (this.isRunning && this.activeTaskId === taskId) return;
+
+  this.clearTimer();
+  this.activeTaskId = taskId;
+
+  const task = this.tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  this.remainingSeconds = task.duration * 60;
+  this.isRunning = true;
+
+  this.timerId = setInterval(() => {
+    if (this.remainingSeconds > 0) {
+      this.remainingSeconds--;
+      return;
+    }
+
+    this.pauseFocusTimer();
+  }, 1000);
+}
+
+pauseFocusTimer(): void {
+  this.clearTimer();
+  this.isRunning = false;
+}
+
+resetFocusTimer(taskId: number): void {
+  this.pauseFocusTimer();
+
+  const task = this.tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  this.activeTaskId = taskId;
+  this.remainingSeconds = task.duration * 60;
+}
+
+get formattedRemainingTime(): string {
+  const minutes = Math.floor(this.remainingSeconds / 60);
+  const seconds = this.remainingSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+private clearTimer(): void {
+  if (!this.timerId) return;
+  clearInterval(this.timerId);
+  this.timerId = null;
+}
 
   loadTasks() {
     this.http.get<Task[]>(this.apiUrl).subscribe(data => {
