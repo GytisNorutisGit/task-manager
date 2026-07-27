@@ -1,4 +1,5 @@
 namespace backend.Models;
+
 using System.ComponentModel.DataAnnotations;
 
 public class Task
@@ -21,5 +22,10 @@ public class Task
 
     [Range(1, 4, ErrorMessage = "Priority must be between 1 and 4.")]
     public int Priority { get; set; } = 2;
+
+    [Range(1, 240, ErrorMessage = "Duration must be between 1 and 240.")]
+    public int Duration { get; set; } = 1;
+
+    public DateTime? PlannedDate { get; set; } 
 
 }

@@ -23,6 +23,8 @@ export class TaskListComponent {
 
   editingTaskIds = new Set<number>();
 
+  selectedStatus: TaskStatus | 'all' = 'all';
+
   get newTaskTitle() {
     return this.taskService.newTaskTitle;
   }
@@ -54,12 +56,37 @@ export class TaskListComponent {
   set taskNotes(value: string) {
     this.taskService.taskNotes = value;
   }
+
+  get taskDuration() {
+    return this.taskService.taskDuration;
+  }
+
+  set taskDuration(value: number) {
+    this.taskService.taskDuration = value;
+  }
+
   get tasks() {
     return this.taskService.tasks;
   }
 
-  addTask(titleModel: NgModel) { 
-    this.taskService.addTask(); 
+  get taskRemainingSeconds() {
+    return this.taskService.remainingSeconds;
+  }
+
+  get activeTaskId() {
+    return this.taskService.activeTaskId;
+  }
+
+  get filteredTasks() {
+    if (this.selectedStatus === 'all') {
+      return this.tasks;
+    }
+    return this.tasks.filter(task => task.status === this.selectedStatus)
+  }
+
+
+  addTask(titleModel: NgModel) {
+    this.taskService.addTask();
     titleModel.reset('');
   }
 
@@ -82,6 +109,73 @@ export class TaskListComponent {
   saveTask(taskId: number) {
     this.taskService.updateTask(taskId);
     this.editingTaskIds.delete(taskId);
+  }
+
+  startTimer(taskId: number) {
+    this.taskService.startFocusTimer(taskId);
+  }
+
+  pauseTimer() {
+    this.taskService.pauseFocusTimer();
+  }
+
+  resetTimer(taskId: number) {
+    this.taskService.resetFocusTimer(taskId);
+  }
+
+  formattedTime(taskId: number) {
+    if (taskId === this.activeTaskId) {
+      return this.taskService.formattedRemainingTime;
+    }
+
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return '0:00';
+
+    return `${task.duration}:00`;
+
+  }
+
+  timerProgress(taskId: number): number {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return 0;
+
+    const totalSeconds = task.duration * 60;
+    if (totalSeconds <= 0) return 0;
+
+    if (this.activeTaskId !== taskId) return 100;
+
+    const percent = (this.taskRemainingSeconds / totalSeconds) * 100;
+    return Math.max(0, Math.min(100, percent));
+  }
+
+  addToToday(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    task.plannedDate = new Date().toISOString().split('T')[0];
+    this.updateTask(taskId);
+  }
+
+  removeFromToday(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return;
+    
+    task.plannedDate = null;
+    this.updateTask(taskId);
+  }
+
+  private todayDateKey(): string {
+    return new Date().toISOString().split ('T')[0];
+  }
+
+  get todayTasks() {
+    const today = this.todayDateKey();
+    return this.filteredTasks.filter(task => task.plannedDate === today);
+  }
+
+  get backlogTasks() {
+    const today = this.todayDateKey();
+    return this.filteredTasks.filter(task => !task.plannedDate || task.plannedDate !== today);
   }
 
 
