@@ -62,6 +62,7 @@ public class TasksController : ControllerBase
         task.Notes = updatedTask.Notes;
         task.Priority = updatedTask.Priority;
         task.Duration = updatedTask.Duration;
+        task.PlannedDate = updatedTask.PlannedDate;
         _context.SaveChanges();
         return NoContent();
     }

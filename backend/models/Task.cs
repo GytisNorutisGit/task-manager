@@ -26,4 +26,6 @@ public class Task
     [Range(1, 240, ErrorMessage = "Duration must be between 1 and 240.")]
     public int Duration { get; set; } = 1;
 
+    public DateTime? PlannedDate { get; set; } 
+
 }

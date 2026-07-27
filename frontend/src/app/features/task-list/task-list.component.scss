@@ -1,4 +1,4 @@
-.completed { color: green; text-decoration: line-through; opacity: 0.5; }
+.completed { color: green; }
 .blocked { color: red; }
 .in-progress { color: orange; }
 
@@ -95,6 +95,17 @@ mat-card {
   gap: 8px;
 }
 
+.task-day-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.task-day-actions button {
+  min-width: 130px;
+}
+
 .delete-button {
   margin-top: 0;
 }
@@ -114,6 +125,10 @@ mat-card {
 
   .task-card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .task-day-actions button {
+    width: 100%;
   }
 }
 

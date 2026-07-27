@@ -12,6 +12,7 @@ interface Task {
   priority: TaskPriority;
   notes: string;
   duration: number;
+  plannedDate?: string | null;
 }
 
 @Injectable({
@@ -59,26 +60,32 @@ export class TaskService {
   }
 
   startFocusTimer(taskId: number): void {
-  if (this.isRunning && this.activeTaskId === taskId) return;
+    if (this.isRunning && this.activeTaskId === taskId) return;
 
-  this.clearTimer();
-  this.activeTaskId = taskId;
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return;
 
-  const task = this.tasks.find(t => t.id === taskId);
-  if (!task) return;
+    const isDifferentTask = this.activeTaskId !== taskId;
+    const shouldResetToFullDuration = isDifferentTask || this.remainingSeconds <= 0;
 
-  this.remainingSeconds = task.duration * 60;
-  this.isRunning = true;
+    this.clearTimer();
+    this.activeTaskId = taskId;
 
-  this.timerId = setInterval(() => {
-    if (this.remainingSeconds > 0) {
-      this.remainingSeconds--;
-      return;
+    if (shouldResetToFullDuration) {
+      this.remainingSeconds = task.duration * 60;
     }
 
-    this.pauseFocusTimer();
-  }, 1000);
-}
+    this.isRunning = true;
+
+    this.timerId = setInterval(() => {
+      if (this.remainingSeconds > 0) {
+        this.remainingSeconds--;
+        return;
+      }
+
+      this.pauseFocusTimer();
+    }, 1000);
+  }
 
 pauseFocusTimer(): void {
   this.clearTimer();

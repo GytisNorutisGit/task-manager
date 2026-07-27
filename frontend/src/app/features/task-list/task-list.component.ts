@@ -23,6 +23,8 @@ export class TaskListComponent {
 
   editingTaskIds = new Set<number>();
 
+  selectedStatus: TaskStatus | 'all' = 'all';
+
   get newTaskTitle() {
     return this.taskService.newTaskTitle;
   }
@@ -73,6 +75,13 @@ export class TaskListComponent {
 
   get activeTaskId() {
     return this.taskService.activeTaskId;
+  }
+
+  get filteredTasks() {
+    if (this.selectedStatus === 'all') {
+      return this.tasks;
+    }
+    return this.tasks.filter(task => task.status === this.selectedStatus)
   }
 
 
@@ -137,6 +146,36 @@ export class TaskListComponent {
 
     const percent = (this.taskRemainingSeconds / totalSeconds) * 100;
     return Math.max(0, Math.min(100, percent));
+  }
+
+  addToToday(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    task.plannedDate = new Date().toISOString().split('T')[0];
+    this.updateTask(taskId);
+  }
+
+  removeFromToday(taskId: number) {
+    const task = this.tasks.find(t => t.id === taskId);
+    if (!task) return;
+    
+    task.plannedDate = null;
+    this.updateTask(taskId);
+  }
+
+  private todayDateKey(): string {
+    return new Date().toISOString().split ('T')[0];
+  }
+
+  get todayTasks() {
+    const today = this.todayDateKey();
+    return this.filteredTasks.filter(task => task.plannedDate === today);
+  }
+
+  get backlogTasks() {
+    const today = this.todayDateKey();
+    return this.filteredTasks.filter(task => !task.plannedDate || task.plannedDate !== today);
   }
 
 
